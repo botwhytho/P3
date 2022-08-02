@@ -38,7 +38,7 @@ Use a login that looks as follows
 Class {
 	#name : #BaselineOfP3,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfP3'
+	#category : #BaselineOfP3
 }
 
 { #category : #baseline }
@@ -46,11 +46,16 @@ BaselineOfP3 >> baselineOf: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [
-			spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON:master/repository' ].
-			spec baseline: 'ZTimestamp' with: [ spec repository: 'github://svenvc/ztimestamp:master/repository' ].
-			spec baseline: 'Glorp' with: [ spec repository: 'github://pharo-rdbms/glorp:master/'].
-			spec package: 'P3' with: [ spec requires: #('NeoJSON' 'ZTimestamp') ].
+		do: [ spec
+				baseline: 'ZTimestamp'
+				with: [ spec
+						repository: 'gitlocal://'
+								, (FileLocator home / 'GlamorousToolkit' / 'git-dependencies' / 'ztimestamp')
+										pathString ].
+			spec
+				baseline: 'Glorp'
+				with: [ spec repository: 'github://pharo-rdbms/glorp:master/' ].
+			spec package: 'P3' with: [ spec requires: #('ZTimestamp') ].
 			spec package: 'P3-Tests' with: [ spec requires: #('P3') ].
 			spec package: 'P3-Glorp' with: [ spec requires: #('P3' 'Glorp') ].
 			spec group: 'default' with: #('P3' 'P3-Tests').
